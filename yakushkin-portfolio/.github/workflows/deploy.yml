@@ -8,6 +8,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: yakushkin-portfolio
 
     steps:
       - name: Checkout
@@ -28,4 +31,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build   # 👉 у тебя React, поэтому build
+          publish_dir: yakushkin-portfolio/build
