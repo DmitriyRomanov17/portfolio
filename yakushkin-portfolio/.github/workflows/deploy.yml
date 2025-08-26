@@ -8,9 +8,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: yakushkin-portfolio
 
     steps:
       - name: Checkout
@@ -22,9 +19,11 @@ jobs:
           node-version: 18
 
       - name: Install dependencies
+        working-directory: yakushkin-portfolio
         run: npm install
 
       - name: Build project
+        working-directory: yakushkin-portfolio
         run: npm run build
 
       - name: Deploy
@@ -32,3 +31,4 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: yakushkin-portfolio/build
+
