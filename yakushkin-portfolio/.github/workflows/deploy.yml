@@ -1,51 +1,36 @@
-name: Deploy React App
+name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main ]
-
-permissions:
-  contents: write
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: yakushkin-portfolio
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Detect app directory
-        run: |
-          if [ -f package.json ]; then
-            echo "APP_DIR=." >> $GITHUB_ENV
-          elif [ -f yakushkin-portfolio/package.json ]; then
-            echo "APP_DIR=yakushkin-portfolio" >> $GITHUB_ENV
-          else
-            echo "package.json not found"
-            ls -la
-            find . -maxdepth 3 -name package.json
-            exit 1
-          fi
+        uses: actions/checkout@v3
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: npm
-          cache-dependency-path: ${{ env.APP_DIR }}/package-lock.json
 
       - name: Install dependencies
-        run: npm ci || npm install
-        working-directory: ${{ env.APP_DIR }}
+        run: npm install
 
-      - name: Build
+      - name: Build project
         run: npm run build
-        working-directory: ${{ env.APP_DIR }}
 
-      - name: Deploy
+      - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ${{ env.APP_DIR }}/build
+          publish_dir: yakushkin-portfolio/build
+
 
