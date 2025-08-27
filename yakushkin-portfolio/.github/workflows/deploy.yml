@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: yakushkin-portfolio   # 👉 указываем папку с package.json
+        working-directory: yakushkin-portfolio   # 👉 все шаги выполняются в этой папке
 
     steps:
       - name: Checkout
@@ -31,7 +31,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: yakushkin-portfolio/build  
-
-
-
+          publish_dir: build   # 👉 билд из yakushkin-portfolio/build
