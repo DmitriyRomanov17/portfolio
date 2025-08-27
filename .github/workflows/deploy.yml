@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Deploy React app to GitHub Pages
 
 on:
   push:
@@ -6,11 +6,11 @@ on:
       - main
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v3
 
       - name: Setup Node.js
@@ -19,13 +19,15 @@ jobs:
           node-version: 18
 
       - name: Install dependencies
-        run: npm install
+        run: yarn
+        working-directory: yakushkin-portfolio
 
       - name: Build project
-        run: npm run build
+        run: yarn build
+        working-directory: yakushkin-portfolio
 
-      - name: Deploy
+      - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build   # 👉 у тебя React, поэтому build
+          publish_dir: yakushkin-portfolio/build
